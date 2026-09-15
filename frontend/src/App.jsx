@@ -5,12 +5,14 @@ import VirtualWorldManager from './components/world/VirtualWorldManager';
 import VirtualCameraManager from './components/camera/VirtualCameraManager';
 import DisturbancePanel from './components/disturbance/DisturbancePanel';
 import DetectionPanel from './components/detection/DetectionPanel';
+import TrackingPanel from './components/tracking/TrackingPanel';
+import ErrorPanel from './components/error/ErrorPanel';
 import StatusBadge from './components/scenario/StatusBadge';
 import { fetchHealth } from './services/scenarioApi';
 import './styles/scenario.css';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('detection'); // default to 'detection'
+  const [activeTab, setActiveTab] = useState('error'); // default to 'error'
   const [simulatorStatus, setSimulatorStatus] = useState('SCENARIO_READY');
   const [backendOnline, setBackendOnline] = useState(true);
 
@@ -111,6 +113,24 @@ export default function App() {
           <Target size={16} />
           <span>Module 5: Beacon Detection & Centroiding</span>
         </button>
+
+        <button
+          type="button"
+          className={`nav-tab-btn ${activeTab === 'tracking' ? 'active' : ''}`}
+          onClick={() => setActiveTab('tracking')}
+        >
+          <Activity size={16} />
+          <span>Module 6: Beacon Tracking & Motion Prediction</span>
+        </button>
+
+        <button
+          type="button"
+          className={`nav-tab-btn ${activeTab === 'error' ? 'active' : ''}`}
+          onClick={() => setActiveTab('error')}
+        >
+          <Compass size={16} />
+          <span>Module 7: Error Calculation & Alignment</span>
+        </button>
       </nav>
 
       {/* Main View Area */}
@@ -142,6 +162,18 @@ export default function App() {
 
         {activeTab === 'detection' && (
           <DetectionPanel
+            backendOnline={backendOnline}
+          />
+        )}
+
+        {activeTab === 'tracking' && (
+          <TrackingPanel
+            backendOnline={backendOnline}
+          />
+        )}
+
+        {activeTab === 'error' && (
+          <ErrorPanel
             backendOnline={backendOnline}
           />
         )}
